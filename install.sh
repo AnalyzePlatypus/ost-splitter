@@ -1,0 +1,1 @@
+gem install colorize awesome_print taglib timecode
