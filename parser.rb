@@ -11,6 +11,7 @@ FULL_FILE_LENGTH = '2:21:16'
 TIMECODE_ONE_SECOND = Timecode.parse("00:00:01:00", fps = 30)
 
 def convert_to_timecode timestamp
+  # puts "convert_to_timecode `#{timestamp}`"
   padded = @padder.pad timestamp
   Timecode.parse padded, fps = 30
 end
@@ -34,14 +35,14 @@ class TimestampParser
     @padder = TimecodePadder.new
     @lines.each_with_index do |line, current_track|
       columns = line.split(', ')
-      @timestamps.push(
-        {
-          track_number: (current_track + 1),
-          start_at: strip_frame_segment(@padder.pad(columns[0])),
-          end_at:   strip_frame_segment(get_track_end(current_track)),
-          track_title: columns[1]
-        }
-      )
+      track_info = {
+        track_number: (current_track + 1),
+        start_at: strip_frame_segment(@padder.pad(columns[0])),
+        end_at: strip_frame_segment(get_track_end(current_track)),
+        track_title: columns[1]
+      }
+      track_info[:duration] = strip_frame_segment (convert_to_timecode(track_info[:end_at]) - convert_to_timecode(track_info[:start_at])).to_s
+      @timestamps.push track_info
     end
   end
 

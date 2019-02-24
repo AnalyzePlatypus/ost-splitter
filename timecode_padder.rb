@@ -2,6 +2,7 @@
 
 class TimecodePadder
   def pad malformed_timestamp
+    # puts "pad #{malformed_timestamp}"
     @padded = ""
     case malformed_timestamp.gsub(":", '').length
       when 0

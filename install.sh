@@ -1,1 +1,1 @@
-gem install colorize awesome_print taglib timecode
+gem install colorize awesome_print taglib timecode slop
